@@ -1,6 +1,11 @@
 # flutter_timer
 
-A new Flutter project.
+
+![timer](https://user-images.githubusercontent.com/10207753/61708045-486e4880-ad65-11e9-86e2-94892e8385af.png)  
+
+![timer2](https://user-images.githubusercontent.com/10207753/61708100-650a8080-ad65-11e9-8135-481c46fed60b.png)
+
+
 
 ## Getting Started
 

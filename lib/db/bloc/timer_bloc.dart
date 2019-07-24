@@ -89,12 +89,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       _duration=updateTimeEvent.duration;
     });
 
-
-
-
-
   }
-
 }
 
 

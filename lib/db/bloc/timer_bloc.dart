@@ -38,7 +38,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     }else if(event is Tick) {
       yield* _mapTickToState(event);
     }else if (event is UpdateTimeEvent){
-      yield*  _mapUpdateTimeToState(event);
+      yield*  _mapUpdateTimeEventToState(event);
     }
   }
 
@@ -80,7 +80,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
 
 
-  Stream<TimerState> _mapUpdateTimeToState(UpdateTimeEvent updateTimeEvent) async*{
+  Stream<TimerState> _mapUpdateTimeEventToState(UpdateTimeEvent updateTimeEvent) async*{
 
     _tickerSubscription?.cancel();
     _tickerSubscription=_ticker.tick(ticks:updateTimeEvent.duration)

@@ -4,8 +4,10 @@ import './bloc.dart';
 import '../model/ticker.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-  final int _duration=60;
+  static int _duration=60;
   final Ticker _ticker;
+
+
 
   TimerBloc({Ticker ticker})
       :assert(ticker!=null),
@@ -14,7 +16,7 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
   StreamSubscription<int> _tickerSubscription;
 
   @override
-  TimerState get initialState => ReadyState(duration : _duration);
+  TimerState get initialState => ReadyState(duration: _duration);
 
   @override
   void dispose() {
@@ -35,6 +37,8 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       yield* _mapResetEventToState(event);
     }else if(event is Tick) {
       yield* _mapTickToState(event);
+    }else if (event is UpdateTimeEvent){
+      yield*  _mapUpdateTimeToState(event);
     }
   }
 
@@ -71,10 +75,25 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
   Stream<TimerState> _mapResetEventToState(ResetEvent reset) async*{
     _tickerSubscription?.cancel();
-    yield ReadyState(duration: _duration);
+    yield ReadyState(duration:_duration);
   }
 
 
+
+  Stream<TimerState> _mapUpdateTimeToState(UpdateTimeEvent updateTimeEvent) async*{
+
+    _tickerSubscription?.cancel();
+    _tickerSubscription=_ticker.tick(ticks:updateTimeEvent.duration)
+        .listen((duration){
+      dispatch(Tick(duration: duration));
+      _duration=updateTimeEvent.duration;
+    });
+
+
+
+
+
+  }
 
 }
 

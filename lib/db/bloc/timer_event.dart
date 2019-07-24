@@ -43,5 +43,11 @@ class Tick extends TimerEvent{
   String toString() => "Tick - duration :$duration";
 }
 
+class UpdateTimeEvent extends TimerEvent{
+  final int duration;
 
+  UpdateTimeEvent({this.duration}) : super([duration]);
 
+  @override
+  String toString() => "UpdateTimeEvent - duration :$duration";
+}

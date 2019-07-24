@@ -5,10 +5,19 @@ import './action_buttons.dart';
 import 'background_wave.dart';
 import 'package:boxed_vertical_seekbar/boxed_vertical_seekbar.dart';
 
-class TimerScreen extends StatelessWidget {
+
+class TimerScreen extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => TimerScreenState();
+
+}
+
+class TimerScreenState extends State<TimerScreen> {
+  TimerBloc timerBloc;
+  final _timerController =TextEditingController();
   @override
   Widget build(BuildContext context) {
-    TimerBloc timerBloc = BlocProvider.of<TimerBloc>(context);
+    timerBloc = BlocProvider.of<TimerBloc>(context);
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -18,7 +27,7 @@ class TimerScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.add_box),
             onPressed: () {
-              _dialogBox(context);
+              _dialogBox(context,_timerController);
             },
           )
         ],
@@ -67,7 +76,8 @@ class TimerScreen extends StatelessWidget {
       ),
     );
   }
-  _dialogBox(context) async{
+  
+  _dialogBox(context,controller) async{
       await showDialog<int>(context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -81,6 +91,7 @@ class TimerScreen extends StatelessWidget {
               children: <Widget>[
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  controller: controller,
                   decoration: InputDecoration(
                     icon: Icon(Icons.access_time),
                     hintText: "e.g 10s or 10m"
@@ -88,14 +99,24 @@ class TimerScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 5,),
                 RaisedButton(
-                  onPressed: (){},
-                  child: Text("Set Time"),
+                  onPressed:  (){
+
+
+                      timerBloc.dispatch(UpdateTimeEvent(duration: 60 * int.parse(_timerController.text)));
+
+                    _timerController.text="";
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("set time"),
+
                 )
               ],
             ),),
           ),
+
         );
       }
       );
   }
+
 }

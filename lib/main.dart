@@ -20,7 +20,9 @@ class myApp extends StatefulWidget{
 }
 
 class myAppState extends State<myApp>{
+  int duration=60;
   TimerBloc _timerBloc;
+
 
   @override
   void initState() {

@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter_timer/db/utils/notification_provider.dart';
 import './bloc.dart';
 import '../model/ticker.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-  static int _duration=60;
+  static int _duration=10;
   final Ticker _ticker;
 
 
@@ -53,7 +54,13 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
 
   Stream<TimerState> _mapTickToState(Tick tick) async*{
-    yield tick.duration > 0 ? RunningState(duration: tick.duration) :FinishedState();
+    //yield tick.duration > 0 ? RunningState(duration: tick.duration) :FinishedState();
+    if (tick.duration >0){
+      yield RunningState(duration: tick.duration);
+    }else{
+     yield FinishedState();
+     NotificationProvider.onCustomShowBasicNotification();
+    }
   }
 
   Stream<TimerState> _mapPauseEventToState(PauseEvent pause) async*{

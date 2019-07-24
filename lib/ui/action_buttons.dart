@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_timer/db/utils/notification_provider.dart';
 import '../db/bloc/bloc.dart';
 
 
@@ -55,7 +56,9 @@ class ActionButtons extends StatelessWidget {
       return [
         FloatingActionButton(
           child: Icon(Icons.replay),
-          onPressed: ()=> bloc.dispatch(ResetEvent()),
+          onPressed: (){
+            bloc.dispatch(ResetEvent());
+          },
         ),
       ];
     }
